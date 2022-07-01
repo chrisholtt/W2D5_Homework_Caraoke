@@ -6,10 +6,3 @@ class Guest:
 
     def pay_entry(self, room):
         self.wallet -= room.entry_fee
-        room.revenue += room.entry_fee
-
-    def find_my_song(self, room):
-        for song in room.song_list:
-            if song.name == self.favourite_song:
-                return "Whoo"
-        return "My favourite song is not here"

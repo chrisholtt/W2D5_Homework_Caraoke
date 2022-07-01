@@ -18,3 +18,21 @@ class Room:
 
     def add_song(self, song):
         self.song_list.append(song)
+
+    def increase_revenue(self, amount):
+        self.revenue += amount
+
+    # def check_for_fav_songs(self):
+    #     for guest in self.guest_list:
+    #         for song in self.song_list:
+    #             if guest.favourite_song == song.name:
+    #                 return "My fav song is here"
+    #     return "My fav song is not here"
+
+    def check_for_fav_songs(self):
+        woos = []
+        for guest in self.guest_list:
+            for song in self.song_list:
+                if guest.favourite_song == song.name:
+                    woos.append(f"{guest.name} says Whoo!")
+        return woos

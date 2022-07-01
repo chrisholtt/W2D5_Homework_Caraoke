@@ -12,6 +12,7 @@ class TestRoom(unittest.TestCase):
 
         self.guest1 = Guest("Christopher", 50, "Billie Jean")
         self.guest2 = Guest("Nathan", 50, "She Wolf")
+        self.guest3 = Guest("Daria", 50, "Dirty Dancing")
 
         self.song1 = Song("Dirty Dancing")
         self.song2 = Song("She Wolf")
@@ -48,17 +49,27 @@ class TestRoom(unittest.TestCase):
                          self.room1.check_in(self.guest1))
 
     def test_revenue_increases(self):
-        self.guest1.pay_entry(self.room1)
+        self.room1.increase_revenue(self.room1.entry_fee)
         self.assertEqual(10, self.room1.revenue)
 
-    def test_favourite_song_in_song_list(self):
-        self.room1.check_in(self.guest2)
+    def test_favourite_song_in_song_in_ist(self):
         self.room1.add_song(self.song1)
         self.room1.add_song(self.song2)
-        self.assertEqual("Whoo", self.guest2.find_my_song(self.room1))
+        self.room1.check_in(self.guest2)
+        self.assertEqual(["Nathan says Whoo!"],
+                         self.room1.check_for_fav_songs())
 
-    def test_favourite_song_is_not_in_list(self):
-        self.room2.add_song(self.song1)
-        self.room2.add_song(self.song2)
-        self.assertEqual("My favourite song is not here",
-                         self.guest1.find_my_song(self.room1))
+    def test_someone_does_not_have_favourite_song_in_list(self):
+        self.room1.add_song(self.song1)
+        self.room1.add_song(self.song2)
+        self.room1.check_in(self.guest1)
+        self.assertEqual([],
+                         self.room1.check_for_fav_songs())
+
+    def test_multiple_people_have_favourite_songs_in_list(self):
+        self.room1.add_song(self.song1)
+        self.room1.add_song(self.song2)
+        self.room1.check_in(self.guest2)
+        self.room1.check_in(self.guest3)
+        self.assertEqual(["Nathan says Whoo!", "Daria says Whoo!"],
+                         self.room1.check_for_fav_songs())
