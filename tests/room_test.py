@@ -9,10 +9,11 @@ class TestRoom(unittest.TestCase):
     def setUp(self):
         self.room1 = Room("Disco room", 5, 10)
         self.room2 = Room("Rock room", 10, 10)
+        self.room3 = Room("Jazz room", 10, 10)
 
         self.guest1 = Guest("Christopher", 50, "Billie Jean")
         self.guest2 = Guest("Nathan", 50, "She Wolf")
-        self.guest3 = Guest("Daria", 50, "Dirty Dancing")
+        self.guest3 = Guest("Daria", 30, "Dirty Dancing")
 
         self.song1 = Song("Dirty Dancing")
         self.song2 = Song("She Wolf")
@@ -29,6 +30,12 @@ class TestRoom(unittest.TestCase):
     def test_can_check_in_guest(self):
         self.room1.check_in(self.guest1)
         self.assertEqual([self.guest1], self.room1.guest_list)
+
+    def test_when_guest_has_no_money_check_in_guest(self):
+        self.guest3.pay_entry(self.room3)
+        self.guest3.pay_entry(self.room3)
+        self.assertEqual("You don't have enough funds bro",
+                         self.guest3.pay_entry(self.room3))
 
     def test_can_check_out_guest(self):
         self.room1.check_in(self.guest1)
